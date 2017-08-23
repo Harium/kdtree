@@ -1,0 +1,14 @@
+# Pre-Compiled Files #
+/bin
+*.class
+.classpath
+.project
+
+# intelliJ Files
+*.iml
+.idea/*
+
+# Automatic generated Files#
+*.applet
+*.html
+
