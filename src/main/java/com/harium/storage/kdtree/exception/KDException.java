@@ -1,6 +1,6 @@
-package com.harium.storage.kdtree;
+package com.harium.storage.kdtree.exception;
 
-// KeyMissingException.java : cKey-size mismatch exception supporting KDTree class
+// KDException.java : general exception class for KD-Tree library
 //
 // Copyright (C) Simon D. Levy 2014
 //
@@ -23,13 +23,10 @@ package com.harium.storage.kdtree;
 // and
 //   <https://projects.ardrone.org/attachments/278/ParrotCopyrightAndDisclaimer.txt>.
 
-public class KeyMissingException extends KDException {  /* made public by MSL */
-
-    public KeyMissingException() {
-        super("Key not found");
+public class KDException extends RuntimeException {
+    protected KDException(String s) {
+        super(s);
     }
 
-    // arbitrary; every serializable class has to have one of these
-    public static final long serialVersionUID = 3L;
-
+    public static final long serialVersionUID = 1L;
 }

@@ -23,6 +23,8 @@ package com.harium.storage.kdtree;
 // and
 //   <https://projects.ardrone.org/attachments/278/ParrotCopyrightAndDisclaimer.txt>.
 
+import com.harium.storage.kdtree.exception.KeyDuplicateException;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,8 +37,7 @@ class KDNode<T> implements Serializable {
     protected boolean deleted;
 
     // Method ins translated from 352.ins.c of Gonnet & Baeza-Yates
-    protected static <T> int edit(HPoint key, Editor<T> editor, KDNode<T> t, int lev, int K)
-            throws KeyDuplicateException {
+    protected static <T> int edit(HPoint key, Editor<T> editor, KDNode<T> t, int lev, int K) {
         KDNode<T> next_node = null;
         int next_lev = (lev + 1) % K;
         synchronized (t) {
@@ -72,8 +73,7 @@ class KDNode<T> implements Serializable {
         return edit(key, editor, next_node, next_lev, K);
     }
 
-    protected static <T> KDNode<T> create(HPoint key, Editor<T> editor)
-            throws KeyDuplicateException {
+    protected static <T> KDNode<T> create(HPoint key, Editor<T> editor) {
         KDNode<T> t = new KDNode<T>(key, editor.edit(null));
         if (t.v == null) {
             t.deleted = true;
@@ -245,7 +245,6 @@ class KDNode<T> implements Serializable {
 
     // constructor is used only by class; other methods are static
     private KDNode(HPoint key, T val) {
-
         k = key;
         v = val;
         left = null;

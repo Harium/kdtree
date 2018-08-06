@@ -1,4 +1,4 @@
-package com.harium.storage.kdtree;
+package com.harium.storage.kdtree.exception;
 
 /**
  * KeyDuplicateException is thrown when the <TT>KDTree.insert</TT> method
@@ -28,7 +28,7 @@ package com.harium.storage.kdtree;
  */
 public class KeyDuplicateException extends KDException {
 
-    protected KeyDuplicateException() {
+    public KeyDuplicateException() {
         super("Key already in tree");
     }
 

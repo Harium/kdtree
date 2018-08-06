@@ -1,5 +1,9 @@
 package com.harium.storage.kdtree;
 
+import com.harium.storage.kdtree.exception.KeyDuplicateException;
+import com.harium.storage.kdtree.exception.KeyMissingException;
+import com.harium.storage.kdtree.exception.KeySizeException;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -102,8 +106,7 @@ public class KDTree<T> implements Serializable {
      * @throws KeySizeException      if key.length mismatches K
      * @throws KeyDuplicateException if key already in tree
      */
-    public void insert(double[] key, T value)
-            throws KeySizeException, KeyDuplicateException {
+    public void insert(double[] key, T value) {
         this.edit(key, new Editor.Inserter<T>(value));
     }
 
@@ -116,8 +119,7 @@ public class KDTree<T> implements Serializable {
      * @throws KeyDuplicateException if key already in tree
      */
 
-    public void edit(double[] key, Editor<T> editor)
-            throws KeySizeException, KeyDuplicateException {
+    public void edit(double[] key, Editor<T> editor) {
 
         if (key.length != m_K) {
             throw new KeySizeException();
@@ -143,7 +145,7 @@ public class KDTree<T> implements Serializable {
      * @return object at key, or null if not found
      * @throws KeySizeException if key.length mismatches K
      */
-    public T search(double[] key) throws KeySizeException {
+    public T search(double[] key) {
 
         if (key.length != m_K) {
             throw new KeySizeException();
@@ -155,8 +157,7 @@ public class KDTree<T> implements Serializable {
     }
 
 
-    public void delete(double[] key)
-            throws KeySizeException, KeyMissingException {
+    public void delete(double[] key) {
         delete(key, false);
     }
 
@@ -170,8 +171,7 @@ public class KDTree<T> implements Serializable {
      * @throws KeySizeException    if key.length mismatches K
      * @throws KeyMissingException if no node in tree has key
      */
-    public void delete(double[] key, boolean optional)
-            throws KeySizeException, KeyMissingException {
+    public void delete(double[] key, boolean optional) {
 
         if (key.length != m_K) {
             throw new KeySizeException();
@@ -196,7 +196,7 @@ public class KDTree<T> implements Serializable {
      * @return object at node nearest to key, or null on failure
      * @throws KeySizeException if key.length mismatches K
      */
-    public T nearest(double[] key) throws KeySizeException {
+    public T nearest(double[] key) {
 
         List<T> nbrs = nearest(key, 1, null);
         return nbrs.get(0);
@@ -211,8 +211,7 @@ public class KDTree<T> implements Serializable {
      * @return objects at nodes nearest to key, or null on failure
      * @throws KeySizeException if key.length mismatches K
      */
-    public List<T> nearest(double[] key, int n)
-            throws KeySizeException, IllegalArgumentException {
+    public List<T> nearest(double[] key, int n) {
         return nearest(key, n, null);
     }
 
@@ -225,8 +224,7 @@ public class KDTree<T> implements Serializable {
      * @return objects at nodes with distance of key, or null on failure
      * @throws KeySizeException if key.length mismatches K
      */
-    public List<T> nearestEuclidean(double[] key, double dist)
-            throws KeySizeException {
+    public List<T> nearestEuclidean(double[] key, double dist) {
         return nearestDistance(key, dist, new EuclideanDistance());
     }
 
@@ -240,9 +238,7 @@ public class KDTree<T> implements Serializable {
      * @return objects at nodes with distance of key, or null on failure
      * @throws KeySizeException if key.length mismatches K
      */
-    public List<T> nearestHamming(double[] key, double dist)
-            throws KeySizeException {
-
+    public List<T> nearestHamming(double[] key, double dist) {
         return nearestDistance(key, dist, new HammingDistance());
     }
 
@@ -260,9 +256,7 @@ public class KDTree<T> implements Serializable {
      * @throws IllegalArgumentException if <I>n</I> is negative or
      *                                  exceeds tree size
      */
-    public List<T> nearest(double[] key, int n, Checker<T> checker)
-            throws KeySizeException, IllegalArgumentException {
-
+    public List<T> nearest(double[] key, int n, Checker<T> checker) {
         if (n <= 0) {
             return new LinkedList<T>();
         }
@@ -290,9 +284,7 @@ public class KDTree<T> implements Serializable {
      * @return array of Objects whose keys fall in range [lowk,uppk]
      * @throws KeySizeException on mismatch among lowk.length, uppk.length, or K
      */
-    public List<T> range(double[] lowk, double[] uppk)
-            throws KeySizeException {
-
+    public List<T> range(double[] lowk, double[] uppk) {
         if (lowk.length != uppk.length) {
             throw new KeySizeException();
         } else if (lowk.length != m_K) {
@@ -321,14 +313,12 @@ public class KDTree<T> implements Serializable {
         return m_root.toString(0);
     }
 
-    private NearestNeighborList<KDNode<T>> getnbrs(double[] key)
-            throws KeySizeException {
+    private NearestNeighborList<KDNode<T>> getnbrs(double[] key) {
         return getnbrs(key, m_count, null);
     }
 
 
-    private NearestNeighborList<KDNode<T>> getnbrs(double[] key, int n,
-                                                   Checker<T> checker) throws KeySizeException {
+    private NearestNeighborList<KDNode<T>> getnbrs(double[] key, int n, Checker<T> checker) {
 
         if (key.length != m_K) {
             throw new KeySizeException();
@@ -350,9 +340,7 @@ public class KDTree<T> implements Serializable {
 
     }
 
-    private List<T> nearestDistance(double[] key, double dist,
-                                    DistanceMetric metric) throws KeySizeException {
-
+    private List<T> nearestDistance(double[] key, double dist, DistanceMetric metric) {
         NearestNeighborList<KDNode<T>> nnl = getnbrs(key);
         int n = nnl.getSize();
         Stack<T> nbrs = new Stack<T>();

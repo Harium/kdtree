@@ -23,21 +23,23 @@ package com.harium.storage.kdtree;
 // and
 //   <https://projects.ardrone.org/attachments/278/ParrotCopyrightAndDisclaimer.txt>.
 
+import com.harium.storage.kdtree.exception.KeyDuplicateException;
+
 public interface Editor<T> {
-    public T edit(T current) throws KeyDuplicateException;
+    public T edit(T current);
 
     public static abstract class BaseEditor<T> implements Editor<T> {
         final T val;
         public BaseEditor(T val) {
             this.val = val;
         }
-        public abstract T edit(T current) throws KeyDuplicateException;
+        public abstract T edit(T current);
     }
     public static class Inserter<T> extends BaseEditor<T> {
         public Inserter(T val) {
             super(val);
         }
-        public T edit(T current) throws KeyDuplicateException {
+        public T edit(T current) {
             if (current == null) {
                 return this.val;
             }

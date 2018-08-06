@@ -1,4 +1,4 @@
-package com.harium.storage.kdtree;
+package com.harium.storage.kdtree.exception;
 
 /**
  * KeySizeException is thrown when a KDTree method is invoked on a
@@ -28,7 +28,7 @@ package com.harium.storage.kdtree;
  */
 public class KeySizeException extends KDException {
 
-    protected KeySizeException() {
+    public KeySizeException() {
         super("Key size mismatch");
     }
 
