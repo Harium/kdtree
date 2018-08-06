@@ -23,8 +23,6 @@ package com.harium.storage.kdtree;
 // and
 //   <https://projects.ardrone.org/attachments/278/ParrotCopyrightAndDisclaimer.txt>.
 
-import com.harium.storage.kdtree.exception.KeyDuplicateException;
-
 import java.io.Serializable;
 import java.util.List;
 
